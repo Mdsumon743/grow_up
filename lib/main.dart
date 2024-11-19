@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -26,68 +25,22 @@ class TreeGrowthScreen extends StatefulWidget {
 }
 
 class _TreeGrowthScreenState extends State<TreeGrowthScreen> {
- List<String> treeImages = [
-    'assets/images/1.png',
-    'assets/images/2.png',
-    'assets/images/3.png',
-    'assets/images/4.png',
-    'assets/images/5.png',
-    'assets/images/6.png',
-    'assets/images/7.png',
-    'assets/images/8.png',
-    'assets/images/9.png',
-    'assets/images/10.png',
-    'assets/images/11.png',
-    'assets/images/12.png',
-    'assets/images/13.png',
-    'assets/images/14.png',
-    'assets/images/15.png',
-    'assets/images/16.png',
-    'assets/images/17.png',
-    'assets/images/18.png',
-    'assets/images/19.png',
-    'assets/images/20.png',
-    'assets/images/21.png',
-    'assets/images/22.png',
-    'assets/images/23.png',
-    'assets/images/24.png',
-    'assets/images/25.png',
-    'assets/images/26.png',
-    'assets/images/27.png',
-    'assets/images/28.png',
-    'assets/images/29.png',
-    'assets/images/30.png',
-    'assets/images/31.png',
-    'assets/images/32.png',
-    'assets/images/33.png',
-    'assets/images/34.png',
-    'assets/images/35.png',
-    'assets/images/36.png',
-    'assets/images/37.png',
-    'assets/images/38.png',
-    'assets/images/39.png',
-    'assets/images/40.png',
-    'assets/images/41.png',
-    'assets/images/42.png',
-    'assets/images/43.png',
-    'assets/images/44.png',
-    'assets/images/45.png',
-    'assets/images/46.png',
-    'assets/images/47.png',
-    'assets/images/48.png',
-    'assets/images/49.png',
-    'assets/images/50.png',
-    'assets/images/51.png',
-    'assets/images/52.png',
-    'assets/images/53.png',
-    'assets/images/54.png',
-    'assets/images/55.png',
-    'assets/images/56.png',
-    'assets/images/57.png',
-    'assets/images/tob.png'
-];
+  final List<String> treeImages = List.generate(
+    57,
+    (index) => 'assets/images/${index + 1}.png',
+  );
+  final String tobImage = 'assets/images/tob.png';
+  int currentIndex = 0;
+  double imageSize = 30.0;
 
-
+  void _growTree() {
+    if (currentIndex < treeImages.length - 1) {
+      setState(() {
+        currentIndex++;
+        imageSize += 7.0; 
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,27 +49,42 @@ class _TreeGrowthScreenState extends State<TreeGrowthScreen> {
         title: const Text("Tree Growth Animation"),
         centerTitle: true,
       ),
-      body:   Column(
+      body: Stack(
+        alignment: Alignment.bottomCenter,
         children: [
-           SizedBox(height: 20),
-          Expanded(
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Stack(
-                    children: [
-                      Image.asset('assets/images/tob.png')
-                    ],
-                  )
-                ],
+          SizedBox(
+            height: MediaQuery.sizeOf(context).height,
+            width: double.infinity,
+          ),
+          Image.asset(
+            tobImage,
+            fit: BoxFit.contain,
+            alignment: Alignment.bottomCenter,
+          ),
+          Positioned(
+            bottom: 100,
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: SizedBox(
+                key: ValueKey<int>(currentIndex),
+                height: imageSize,
+                width: imageSize,
+                child: Image.asset(
+                  treeImages[currentIndex],
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),
-           SizedBox(height: 20),
+          Positioned(
+            top: 20,
+            child: ElevatedButton(
+              onPressed: _growTree,
+              child: const Text("Grow Tree"),
+            ),
+          ),
         ],
       ),
     );
   }
 }
- 
