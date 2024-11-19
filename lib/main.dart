@@ -74,12 +74,11 @@ class _TreeGrowthScreenState extends State<TreeGrowthScreen> {
     'assets/images/bean47.png',
     'assets/images/bean48.png',
     'assets/images/bean49.png',
-    'assets/images/bean50.png',
+    'assets/images/bean50.png', 
     'assets/images/bean51.png',
     'assets/images/bean52.png',
     'assets/images/bean53.png',
   ];
-
   int _currentImageIndex = 0;
   Timer? _timer;
 
@@ -96,12 +95,12 @@ class _TreeGrowthScreenState extends State<TreeGrowthScreen> {
   }
 
   void _startAnimation() {
-    _timer = Timer.periodic(const Duration(milliseconds: 1000), (timer) {
+    _timer = Timer.periodic(const Duration(milliseconds: 3000), (timer) {
       setState(() {
         if (_currentImageIndex < treeImages.length - 1) {
           _currentImageIndex++;
         } else {
-          _timer?.cancel(); // Stop animation at the last frame
+          _timer?.cancel();
         }
       });
     });
@@ -116,25 +115,33 @@ class _TreeGrowthScreenState extends State<TreeGrowthScreen> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 20), // Space from top
+          const SizedBox(height: 20),
           Expanded(
             child: Center(
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 10),
-                transitionBuilder: (Widget child, Animation<double> animation) {
-                  return FadeTransition(opacity: animation, child: child);
-                },
-                child: Image.asset(
-                  treeImages[_currentImageIndex],
-                  key: ValueKey<int>(_currentImageIndex), // Unique key for each image
-                  fit: BoxFit.contain,
-                  height: 300, // Fixed size
-                  width: 300, // Fixed size
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 1000),
+                    transitionBuilder: (Widget child, Animation<double> animation) {
+                      // A combination of scaling and sliding animation for smooth effect
+                      return FadeTransition(
+                        opacity: animation,
+                        
+                        child: child,
+                      );
+                    },
+                    child: Image.asset(
+                      treeImages[_currentImageIndex],
+                      key: ValueKey<int>(_currentImageIndex), // Ensure uniqueness
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-          const SizedBox(height: 20), // Space from bottom (if needed)
+          const SizedBox(height: 20),
         ],
       ),
     );
