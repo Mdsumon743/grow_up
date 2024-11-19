@@ -31,7 +31,7 @@ class _TreeGrowthScreenState extends State<TreeGrowthScreen> {
   );
   final String tobImage = 'assets/images/tob.png';
   int currentIndex = 0;
-  double imageSize = 30.0;
+  double imageSize = 25.0;
 
   void _growTree() {
     if (currentIndex < treeImages.length - 1) {
